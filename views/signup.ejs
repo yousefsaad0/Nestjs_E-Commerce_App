@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <%- include('header.ejs') %>
+</head>
+  <body>
+    <h1>Sign Up</h1>
+    <form action="/auth/signup" method="POST">  
+      <label for="username">Username:</label>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+      <input type="text" name="username" id="username" placeholder="required" />
+
+      <label for="email">Email:</label>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+      <input type="text" name="email" id="email" placeholder="required" />
+
+      <label for="password">Password:</label>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+      <input type="password" name="password" id="password" placeholder="required" />
+
+      <input type="submit" value="Sign Up" name="signup"/>
+  </body>
+</html>

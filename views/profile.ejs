@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <%- include('header.ejs') %>
+</head>
+<body>
+    <h1>Profile</h1>
+    <div id="pfp"></div>
+    <div id="profileData"></div>
+    <script>
+        async function fetchProfile() {
+            const accessToken = localStorage.getItem('access_token');
+            const response = await fetch('/users/profile', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const {profilePicRef, ...rest} = data
+                console.log(profilePicRef)
+                document.getElementById('profileData').innerText = JSON.stringify(rest);
+                document.getElementById('pfp').innerHTML = "<img width = '180' height = '180' src=./"+profilePicRef+ " alt='Profile Picture'/>"
+                return data
+            } else if (response.status === 401) {
+                // alert('Unauthorized');
+                const refresh = await fetch('/auth/refresh',{
+                    method:'POST',
+                    body:{'refresh_token':'jjjg'}
+                })
+                const data = await refresh.json();
+                const {access_token} = data;
+                localStorage.setItem('access_token', access_token);
+                const response = await fetch('/users/profile', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${access_token}`
+                    }
+                })
+                const userData = await response.json();
+                return userData
+            } else {
+                alert('Failed to fetch profile');
+            }
+        }
+        fetchProfile();
+    </script>
+</body>
+</html>

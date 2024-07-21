@@ -1,0 +1,12 @@
+<div>
+    <a href="/auth/logout" onclick="onLogoutClick()" style="float: right;"> Logout </a>
+    <a href="/login" style="float: right;"> Login | </a>
+    <a href="/signup" style="float: right;"> Sign-Up | </a>
+    <a href="/profile" style="float: right;"> My Profile | </a>
+    <a href="/" style="float: right;"> Home | </a>
+</div> 
+<script>
+    function onLogoutClick(){
+        localStorage.removeItem('access_token');
+    }
+</script>
