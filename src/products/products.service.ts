@@ -4,13 +4,17 @@ import { Product, ProductSchema } from './schemas/products.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UpdateProductDto } from './dtos/update-product.dto';
+import { GetQueryParamsDto } from 'src/common/dtos/get-page-query-params.dto';
 
 @Injectable()
 export class ProductsService {
     constructor(@InjectModel(Product.name) private productModel: Model<Product>){}
 
-    async findAll(){
-        return await this.productModel.find()
+    async findAll(query:GetQueryParamsDto):Promise<Product[]>{
+        const { page, limit } = query;
+        const skip = limit || 5;
+        const offset = (page-1)*limit
+        return await this.productModel.find().skip(offset).limit(skip).exec()
     }
     
     async createProduct(createProductDto: CreateProductDto): Promise<Product> {
