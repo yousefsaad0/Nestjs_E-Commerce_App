@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './schemas/users.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { FindUserByIdDto } from './dtos/find-user-by-id.dto';
+import { FindByIdDto } from '../common/dtos/find-by-id.dto';
 import { FindUserByEmailDto } from './dtos/find-user-by-email.dto';
 import { GetQueryParamsDto } from '../common/dtos/get-page-query-params.dto';
 
@@ -27,22 +27,22 @@ export class UsersService {
         return user
     }
 
-    async findOneByIdOrNull(userId:FindUserByIdDto):Promise<User>|null{
+    async findOneByIdOrNull(userId:FindByIdDto):Promise<User>|null{
         // console.log(userId)
-        const user = await this.userModel.findById(userId.userId).lean().exec()
+        const user = await this.userModel.findById(userId.id).lean().exec()
         if(!user){throw new NotFoundException('User not found')}
         return user
     }
 
-    async findOneByIdAndUpdateOrNull(currentUserId,userId:FindUserByIdDto,updateUserDto: UpdateUserDto): Promise<User>|null {      
-        if(currentUserId!==userId.userId){throw new UnauthorizedException("Cannot update other Users' profiles")}
-        const user = await this.userModel.findByIdAndUpdate(userId.userId, updateUserDto, {new:true})
+    async findOneByIdAndUpdateOrNull(currentUserId,userId:FindByIdDto,updateUserDto: UpdateUserDto): Promise<User>|null {      
+        if(currentUserId!==userId.id){throw new ForbiddenException("Cannot update other Users' profiles")}
+        const user = await this.userModel.findByIdAndUpdate(userId.id, updateUserDto, {new:true})
         if(!user){throw new NotFoundException('User not found')}
         return user
     }
 
-    async findOneByIdAndDeleteOrNull(userId:FindUserByIdDto): Promise<User>|null {    
-        const user = await this.userModel.findByIdAndDelete(userId.userId)
+    async findOneByIdAndDeleteOrNull(userId:FindByIdDto): Promise<User>|null {    
+        const user = await this.userModel.findByIdAndDelete(userId.id)
         if(!user){throw new NotFoundException('User not found')}
         return user
     }

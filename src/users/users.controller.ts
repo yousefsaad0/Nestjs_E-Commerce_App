@@ -10,7 +10,7 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserInterface } from './interfaces/user.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { FindUserByIdDto } from './dtos/find-user-by-id.dto';
+import { FindByIdDto } from '../common/dtos/find-by-id.dto';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { GetQueryParamsDto } from '../common/dtos/get-page-query-params.dto';
 
@@ -55,8 +55,8 @@ export class UsersController {
     @UseGuards(RolesGuard)
     @Get("/:userId")
     async getUserById(@Param("userId") userParam:string):Promise<User>{
-        const findUserByIdDto = new FindUserByIdDto;
-        findUserByIdDto.userId = userParam
+        const findUserByIdDto = new FindByIdDto;
+        findUserByIdDto.id = userParam
         return await this.usersService.findOneByIdOrNull(findUserByIdDto)
     }
     
@@ -68,8 +68,8 @@ export class UsersController {
     @ApiBody({ description: 'User data to update', type: UpdateUserDto })
     @Patch("/:userId")
     async updateUser(@Param("userId") userParam:string, @CurrentUser() currentUserId:string, @Body() updateUserDto:UpdateUserDto):Promise<User>{
-        const findUserByIdDto = new FindUserByIdDto;
-        findUserByIdDto.userId = userParam
+        const findUserByIdDto = new FindByIdDto;
+        findUserByIdDto.id = userParam
         return await this.usersService.findOneByIdAndUpdateOrNull(currentUserId,findUserByIdDto, updateUserDto);
     }
 
@@ -82,8 +82,8 @@ export class UsersController {
     @UseGuards(RolesGuard)
     @Delete("/:userId")
     async deleteUser(@Param("userId") userParam:string):Promise<User>{
-        const findUserByIdDto = new FindUserByIdDto;
-        findUserByIdDto.userId = userParam
+        const findUserByIdDto = new FindByIdDto;
+        findUserByIdDto.id = userParam
         return await this.usersService.findOneByIdAndDeleteOrNull(findUserByIdDto)
     }
 
@@ -138,8 +138,8 @@ export class UsersController {
         // }
         // else if (currentUser._id!==userParam){throw new UnauthorizedException("Cannot modify other Users' profiles")}
         console.log(file)
-        const findUserByIdDto = new FindUserByIdDto;
-        findUserByIdDto.userId = userParam
+        const findUserByIdDto = new FindByIdDto;
+        findUserByIdDto.id = userParam
         return await this.usersService.findOneByIdAndUpdateOrNull(currentUserId,findUserByIdDto, {profilePicRef:file.path})
     }
 }
