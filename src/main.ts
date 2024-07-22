@@ -22,8 +22,8 @@ async function bootstrap() {
 
 
   const config = new DocumentBuilder()
-  .setTitle("Users Example")
-  .setDescription("The Users API Documentation")
+  .setTitle("My NestJS E-Commerce App")
+  .setDescription("Project API Documentation")
   .setVersion("1.0")
   .addBearerAuth(
     {
