@@ -54,25 +54,6 @@ export class UpdateProductDto {
   @IsOptional()
   dimensions?: string;
 
-  // @ApiPropertyOptional({
-  //   description: 'Ratings of the product',
-  //   example: 4.5,
-  // })
-  // @IsNumber()
-  // @IsOptional()
-  // @Min(0)
-  // @Max(5)
-  // ratings?: number;
-
-  // @ApiPropertyOptional({
-  //   description: 'Reviews of the product',
-  //   example: ['Great product!', 'Very satisfied'],
-  // })
-  // @IsArray()
-  // @IsOptional()
-  // @IsString({ each: true })
-  // reviews?: string[];
-
   @ApiPropertyOptional({
     description: 'Status of the product',
     example: Status.ACTIVE,
