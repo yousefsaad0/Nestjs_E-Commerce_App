@@ -3,5 +3,8 @@ export enum Category {
     Clothing = 'Clothing',
     Home = 'Home',
     Books = 'Books',
-    //Extend...
-  }
+    Accessories = 'Accessories',
+    Furniture = 'Furniture',
+    Appliances = 'Appliances',
+    Health = 'Health'
+}
