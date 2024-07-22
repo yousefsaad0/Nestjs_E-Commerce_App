@@ -12,22 +12,25 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { FindUserByIdDto } from './dtos/find-user-by-id.dto';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { GetUsersQueryParamsDto } from './dtos/get-users-query-params.dto';
+import { GetQueryParamsDto } from '../common/dtos/get-page-query-params.dto';
 
 @ApiTags("Users")
+@ApiBearerAuth("JWT-auth")
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService:UsersService,
     ){}
 
-    @ApiOperation({ summary: 'Fetch paginated list of users' })
+    @ApiOperation({ summary: 'Fetch paginated list of all users' })
     @ApiResponse({ status: 200, description: 'Paginated list of users returned successfully.' })
     @ApiResponse({ status: 400, description: 'Bad Request.' })
+    @ApiResponse({ status:401, description: 'You need to be logged-in to access this resource.' })
     @ApiResponse({status:403, description:"You do not have permission to access this resource (Admins only)"})
     @Get()
     @Roles(Role.Admin)
     @UseGuards(RolesGuard)
-    async findAll(@Query() queryParams:GetUsersQueryParamsDto):Promise<User[]>  {
+    async findAll(@Query() queryParams:GetQueryParamsDto):Promise<User[]>  {
         const page = queryParams.page || 1;
         const limit = queryParams.limit || 5;
         return await this.usersService.findAll({page, limit})
@@ -37,8 +40,6 @@ export class UsersController {
     @ApiOperation({summary:"Fetches user profile"})
     @ApiOkResponse({description:"User profile fetched successfully"})
     @ApiUnauthorizedResponse({description:"Access Denied"})
-    @ApiBearerAuth("JWT-auth")
-    @UseGuards(JwtAuthGuard)
     @Get("/profile")
     getProfile(@Session() session:any):Partial<User>{
         const user = session.user as UserInterface
