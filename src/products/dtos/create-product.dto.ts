@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsNotEmpty, IsNumber, IsOptional, Min, IsArray, IsDate, IsBoolean, ArrayNotEmpty, IsEnum } from "class-validator";
-import { Type } from "class-transformer";
+import { IsString, IsNotEmpty, IsNumber, Min, IsEnum, IsArray, IsOptional, Max } from "class-validator";
+import { Category } from "../enums/category.enum";
+import { Status } from "../enums/status.enum";
 
 export class CreateProductDto {
   @ApiProperty({
@@ -16,8 +17,8 @@ export class CreateProductDto {
     example: 'A high-quality wireless mouse with ergonomic design',
   })
   @IsString()
-  @IsOptional()
-  description?: string;
+  @IsNotEmpty()
+  description: string;
 
   @ApiProperty({
     description: 'Price of the product',
@@ -29,53 +30,87 @@ export class CreateProductDto {
   price: number;
 
   @ApiProperty({
-    description: 'Stock count of the product',
+    description: 'Category of the product',
+    example: 'Electronics',
+  })
+  @IsEnum(Category)
+  @IsNotEmpty()
+  category: Category;
+
+  @ApiProperty({
+    description: 'SKU of the product',
+    example: 'SKU12345',
+  })
+  @IsString()
+  @IsNotEmpty()
+  sku: string;
+
+  @ApiProperty({
+    description: 'Quantity of the product',
     example: 100,
   })
   @IsNumber()
   @IsNotEmpty()
   @Min(0)
-  stock: number;
+  quantity: number;
 
   @ApiProperty({
-    description: 'Categories of the product',
-    example: ['Electronics', 'Accessories'],
+    description: 'Images of the product',
+    example: ['image1.jpg', 'image2.jpg'],
   })
   @IsArray()
-  @ArrayNotEmpty()
+  @IsOptional()
   @IsString({ each: true })
-  categories: string[];
-
-  @ApiProperty({
-    description: 'Release date of the product',
-    example: '2023-01-01T00:00:00.000Z',
-  })
-  @IsDate()
-  @Type(() => Date)
-  @IsOptional()
-  releaseDate?: Date;
-
-  @ApiProperty({
-    description: 'Is the product available',
-    example: true,
-  })
-  @IsBoolean()
-  @IsOptional()
-  isAvailable?: boolean;
+  images?: string[];
 
   @ApiProperty({
     description: 'Brand associated with the product',
     example: 'Logitech',
   })
   @IsString()
-  @IsNotEmpty()
-  brand: string;
+  @IsOptional()
+  brand?: string;
+
+  @ApiProperty({
+    description: 'Weight of the product',
+    example: 1.5,
+  })
+  @IsNumber()
+  @IsOptional()
+  weight?: number;
+
+  @ApiProperty({
+    description: 'Dimensions of the product',
+    example: '10x5x3',
+  })
+  @IsString()
+  @IsOptional()
+  dimensions?: string;
+
+  @ApiProperty({
+    description: 'Ratings of the product',
+    example: 4.5,
+  })
+  @IsNumber()
+  @IsOptional()
+  @Min(0)
+  @Max(5)
+  ratings?: number;
+
+  @ApiProperty({
+    description: 'Reviews of the product',
+    example: ['Great product!', 'Very satisfied'],
+  })
+  @IsArray()
+  @IsOptional()
+  @IsString({ each: true })
+  reviews?: string[];
 
   @ApiProperty({
     description: 'Status of the product',
     example: 'ACTIVE',
   })
-  @IsEnum(['ACTIVE', 'INACTIVE', 'DISCONTINUED'])
+  @IsEnum(Status)
   @IsNotEmpty()
-  status: 'ACTIVE' | 'INACTIVE' | 'DISCONTINUED';
+  status: Status;
 }
