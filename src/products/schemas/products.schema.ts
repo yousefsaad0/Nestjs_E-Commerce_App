@@ -7,7 +7,7 @@ export type ProductDocument = HydratedDocument<Product>;
 @Schema()
 export class Product {
     @Prop({ required: true, type: 'string' })
-    title: string;
+    name: string;
 
     @Prop({ required: true, type: 'string' })
     description: string;
@@ -48,7 +48,7 @@ export class Product {
     @Prop({ type: ['string'] })
     reviews?: string[];
 
-    @Prop({ type: 'string', default: 'in stock' })
+    @Prop({ type: 'string', default: 'ACTIVE' })
     status?: string;
 }
 
