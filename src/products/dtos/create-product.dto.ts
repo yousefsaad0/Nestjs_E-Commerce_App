@@ -5,6 +5,12 @@ import { Status } from "../enums/status.enum";
 
 export class CreateProductDto {
   @ApiProperty({
+    description:'Id of user creating this product listing',
+    example:'669e1df53d8cfda27785e5e5'
+  })
+  createdBy: string;
+  
+  @ApiProperty({
     description: 'Name of the product',
     example: 'Wireless Mouse',
   })
@@ -108,7 +114,7 @@ export class CreateProductDto {
 
   @ApiProperty({
     description: 'Status of the product',
-    example: 'ACTIVE',
+    example: 'Active',
   })
   @IsEnum(Status)
   @IsNotEmpty()

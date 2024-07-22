@@ -1,11 +1,15 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import mongoose, { HydratedDocument, Model, Mongoose } from "mongoose";
 import { Category } from "../enums/category.enum";
+import { User } from "src/users/schemas/users.schema";
 
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
 export class Product {
+    @Prop({required:true, type:mongoose.Schema.Types.ObjectId, ref:'User'})
+    createdBy: User;
+    
     @Prop({ required: true, type: 'string' })
     name: string;
 

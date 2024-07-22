@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsString, IsOptional, IsNumber, Min, IsEnum, IsArray, Max } from "class-validator";
+import { IsString, IsOptional, IsNumber, Min, IsEnum, IsArray } from "class-validator";
 import { Status } from "../enums/status.enum";
 
 export class UpdateProductDto {
@@ -54,28 +54,28 @@ export class UpdateProductDto {
   @IsOptional()
   dimensions?: string;
 
-  @ApiPropertyOptional({
-    description: 'Ratings of the product',
-    example: 4.5,
-  })
-  @IsNumber()
-  @IsOptional()
-  @Min(0)
-  @Max(5)
-  ratings?: number;
+  // @ApiPropertyOptional({
+  //   description: 'Ratings of the product',
+  //   example: 4.5,
+  // })
+  // @IsNumber()
+  // @IsOptional()
+  // @Min(0)
+  // @Max(5)
+  // ratings?: number;
 
-  @ApiPropertyOptional({
-    description: 'Reviews of the product',
-    example: ['Great product!', 'Very satisfied'],
-  })
-  @IsArray()
-  @IsOptional()
-  @IsString({ each: true })
-  reviews?: string[];
+  // @ApiPropertyOptional({
+  //   description: 'Reviews of the product',
+  //   example: ['Great product!', 'Very satisfied'],
+  // })
+  // @IsArray()
+  // @IsOptional()
+  // @IsString({ each: true })
+  // reviews?: string[];
 
   @ApiPropertyOptional({
     description: 'Status of the product',
-    example: 'ACTIVE',
+    example: Status.ACTIVE,
   })
   @IsEnum(Status)
   @IsOptional()
@@ -83,7 +83,7 @@ export class UpdateProductDto {
 
   @ApiPropertyOptional({
     description: 'Updated date of the product',
-    example: new Date().toISOString(),
+    // example: new Date().toISOString(),
   })
   @IsOptional()
   updatedAt?: Date = new Date();
