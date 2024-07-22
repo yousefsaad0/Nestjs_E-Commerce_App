@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsInt, IsNotEmpty, IsOptional, Min } from "class-validator";
 
-export class GetUsersQueryParamsDto{
+export class GetQueryParamsDto{
     @ApiProperty({type:'number', default: 1})
     @IsOptional()
     @IsNotEmpty()
