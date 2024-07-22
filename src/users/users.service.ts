@@ -6,13 +6,13 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { FindUserByIdDto } from './dtos/find-user-by-id.dto';
 import { FindUserByEmailDto } from './dtos/find-user-by-email.dto';
-import { GetUsersQueryParamsDto } from './dtos/get-users-query-params.dto';
+import { GetQueryParamsDto } from '../common/dtos/get-page-query-params.dto';
 
 @Injectable()
 export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<User>){}
 
-    async findAll(query:GetUsersQueryParamsDto):Promise<User[]> {
+    async findAll(query:GetQueryParamsDto):Promise<User[]> {
         const { page, limit } = query;
         // console.log(page,limit)
         const skip = limit || 5;
